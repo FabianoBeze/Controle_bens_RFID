@@ -1,28 +1,25 @@
-from usuario import Usuario
 from bem import Bem
+from usuario import Usuario
 
-class Administrador(Usuario):
-    def __init__(self, nome, senha):   # Inicializa o administrador com nome e senha
+class Administrador:
+    def __init__(self, nome, senha):
         self.nome = nome
         self.senha = senha
 
-    def login(self, nome, senha):   # Verifica se o login é válido
+    def login(self, nome, senha):
         return self.nome == nome and self.senha == senha
 
-    def cadastrar_bem(self, lista_bens, rfid, nome, local, responsavel):
-        bem = Bem(rfid, nome, local, responsavel)
+    def cadastrar_bem(self, lista_bens, rfid, nome, local, responsavel, numero_patrimonio):
+        for bem in lista_bens:
+            if bem.rfid == rfid:
+                return False  # RFID já cadastrado
+        bem = Bem(rfid, nome, local, responsavel, numero_patrimonio)
         lista_bens.append(bem)
+        return True
 
-    def editar_bem(self, bem, **kwargs):  # Edita as informações do bem
-        for key, value in kwargs.items():
-            setattr(bem, key, value)
-
-    def emitir_relatorio(self, bem):
-        return bem.movimentacoes
-
-    def cadastrar_usuario(self, lista_usuarios, nome, tipo):
-        usuario = Usuario(nome, tipo)
+    def cadastrar_usuario(self, lista_usuarios, nome, tipo, senha):
+        usuario = Usuario(nome, tipo, senha)
         lista_usuarios.append(usuario)
 
-    def configurar_alerta(self, bem, alerta):
-        bem.alerta = alerta
+    def emitir_relatorio(self, bem):
+        return bem.historico_movimentacoes

@@ -1,12 +1,14 @@
 class Bem:
-    def __init__(self, rfid, nome, local, responsavel):   # inicializa o bem com RFID, nome, local e responsável
+    def __init__(self, rfid, nome, local, responsavel, numero_patrimonio):
         self.rfid = rfid
         self.nome = nome
         self.local = local
         self.responsavel = responsavel
-        self.movimentacoes = []
+        self.numero_patrimonio = numero_patrimonio
+        self.status = "operacional"  # operacional, em_reparo
+        self.historico_movimentacoes = []
 
-    def registrar_movimentacao(self, novo_local, usuario):  # Registra a movimentação do bem
+    def registrar_movimentacao(self, novo_local, usuario):
         self.movimentacoes.append({
             "de": self.local,
             "para": novo_local,
